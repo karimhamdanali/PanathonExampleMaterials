@@ -40,3 +40,5 @@ To remove an image:
 ```
    docker rmi <Image-ID>
 ```
+
+  * If the `docker build ...` step of the demo setup fails, beware that a container and an image will be leftover from the attempt. If this occurs let us know, and we will remedy the error, however you will likely wish to cleanup the image/container from the corresponding failed build attempt.
