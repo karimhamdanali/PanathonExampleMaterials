@@ -1,0 +1,148 @@
+# Copyright (c) 2017, 2018 IBM Corp. and others
+#
+# This program and the accompanying materials are made available under
+# the terms of the Eclipse Public License 2.0 which accompanies this
+# distribution and is available at https://www.eclipse.org/legal/epl-2.0/
+# or the Apache License, Version 2.0 which accompanies this distribution and
+# is available at https://www.apache.org/licenses/LICENSE-2.0.
+#
+# This Source Code may also be made available under the following
+# Secondary Licenses when the conditions for such availability set
+# forth in the Eclipse Public License, v. 2.0 are satisfied: GNU
+# General Public License, version 2 with the GNU Classpath
+# Exception [1] and GNU General Public License, version 2 with the
+# OpenJDK Assembly Exception [2].
+#
+# [1] https://www.gnu.org/software/classpath/license.html
+# [2] http://openjdk.java.net/legal/assembly-exception.html
+#
+# SPDX-License-Identifier: EPL-2.0 OR Apache-2.0 OR GPL-2.0 WITH Classpath-exception-2.0 OR LicenseRef-GPL-2.0 WITH Assembly-exception
+
+#IMPORTANT NOTICE----------------------------------------------------------
+#
+# This dockerfile is based on the build it yourself
+# openJDK BUT with tweaks for full env setup
+# and specific builds for the extension work
+# (original source at:)
+# https://www.eclipse.org/openj9/oj9_build.html
+# https://github.com/eclipse/openj9/blob/master/buildenv/docker/jdk8/x86_64/ubuntu18/Dockerfile
+#
+# Author: Kristen Newbury May 2019
+#------------------------------------------------------------
+
+#----------------------------------------------------------
+# To use this docker file:
+#   docker build -t openj9-jdk8-extended -f DockerfileCogni .
+#   docker run --name=PanathonDemo -it openj9-jdk8-extended
+#----------------------------------------------------------
+
+FROM ubuntu:18.04
+
+# Install the required tools.
+RUN apt-get update \
+ && apt-get install -qq -y --no-install-recommends \
+	  autoconf \
+	  ca-certificates \
+	  ccache \
+	  cmake \
+	  cpio \
+	  file \
+	  g++-4.8 \
+	  gcc-4.8 \
+	  git \
+	  libasound2-dev \
+	  libcups2-dev \
+	  libdwarf-dev \
+	  libelf-dev \
+	  libfreetype6-dev \
+	  libnuma-dev \
+	  libx11-dev \
+	  libxext-dev \
+	  libxrender-dev \
+	  libxt-dev \
+	  libxtst-dev \
+	  libfontconfig1-dev \
+	  make \
+	  pkg-config \
+      software-properties-common \
+	  ssh \
+	  unzip \
+	  wget \
+	  zip \
+	  nasm \
+	  maven \
+ && rm -rf /var/lib/apt/lists/*
+
+# Install optional tools.
+RUN apt-get update \
+ && apt-get install -qq -y --no-install-recommends \
+	  less \
+	  vim \
+	  emacs25 \
+ && rm -rf /var/lib/apt/lists/*
+
+# Create links to the required compiler version.
+RUN ln -s gcc-4.8 /usr/bin/cc \
+ && ln -s gcc-4.8 /usr/bin/gcc \
+ && ln -s g++-4.8 /usr/bin/c++ \
+ && ln -s g++-4.8 /usr/bin/g++
+
+# Download and unpack freemarker.
+RUN cd /root \
+ && wget https://sourceforge.net/projects/freemarker/files/freemarker/2.3.8/freemarker-2.3.8.tar.gz/download -O freemarker.tar.gz \
+ && tar -xzf freemarker.tar.gz freemarker-2.3.8/lib/freemarker.jar --strip=2 \
+ && rm -f freemarker.tar.gz
+
+# Download the boot JDK from AdoptOpenJDK.
+RUN cd /root \
+ && wget https://api.adoptopenjdk.net/openjdk8-openj9/releases/x64_linux/latest/binary -O bootjdk8.tar.gz \
+ && tar -xzf bootjdk8.tar.gz \
+ && rm -f bootjdk8.tar.gz \
+ && mv $(ls | grep -i jdk) bootjdk8
+
+# Set JAVA_HOME, and prepend $JAVA_HOME/bin to PATH.
+ENV JAVA_HOME=/root/bootjdk8
+ENV PATH="$JAVA_HOME/bin:$PATH"
+WORKDIR /root
+
+#get the runtime, as well as Openj9 and build it
+RUN \
+    git clone -b openj9-0.14.0 https://github.com/ibmruntimes/openj9-openjdk-jdk8  && \
+    cd openj9-openjdk-jdk8 && \
+    bash ./get_source.sh -omr-branch=v0.14.0-release -openj9-repo=https://github.com/themaplelab/openj9.git -openj9-branch=PanathonDemo && \
+    bash ./configure --with-freemarker-jar=/root/freemarker.jar && \
+    make all
+
+#get the CogniCrypt and Soot repos necessary for this
+RUN cd /root \
+    && git clone -b PanathonDemo https://github.com/themaplelab/CryptoAnalysis.git && \
+     cd CryptoAnalysis/CryptoAnalysis && \
+     mvn package -DskipTests=true
+RUN cd /root \
+    && git clone -b PanathonDemo https://github.com/themaplelab/soot.git && \
+     cd soot && \
+     mvn clean compile assembly:single
+
+#get the example to run on
+RUN cd /root \
+    && git clone https://github.com/knewbury01/PanathonExampleMaterials
+
+#Set for the new build: JAVA_HOME, and prepend $JAVA_HOME/bin to PATH.
+ENV JAVA_HOME="/root/openj9-openjdk-jdk8/build/linux-x86_64-normal-server-release/images/j2sdk-image"
+ENV PATH="/root/openj9-openjdk-jdk8/build/linux-x86_64-normal-server-release/images/j2sdk-image/jre/bin/:$PATH"
+RUN \
+    echo 'alias java="~/openj9-openjdk-jdk8/build/linux-x86_64-normal-server-release/images/j2sdk-image/bin/java"'  >> ~/.bashrc && \
+    echo 'alias javac="~/openj9-openjdk-jdk8/build/linux-x86_64-normal-server-release/images/j2sdk-image/bin/javac"'  >> ~/.bashrc
+
+#perform a version test
+RUN \
+echo "TESTING SETUP -- verify that the output following expected and real are the same" && \
+echo "EXPECTED java -version" && \
+echo "OpenJDK Runtime Environment (build 1.8.0_181-internal-_2019_05_14_19_34-b00) \n\
+Eclipse OpenJ9 VM (build cachememddr-87cfdb580, JRE 1.8.0 Linux amd64-64-Bit Compressed References 20190514_000000 (JIT enabled, AOT enab\n\
+led) \n\
+OpenJ9   - 87cfdb580 \n\
+OMR      - 4a4278e6 \n\
+JCL      - 5590c4f818 based on jdk8u181-b13)" && \
+echo "REAL java -version" && \
+java -version
