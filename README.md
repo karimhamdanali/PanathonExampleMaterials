@@ -1,9 +1,9 @@
 # PanathonExampleMaterials
-  * This repo contains some materials to setu an environment for a demonstration that is to take place in [Panathon](https://2019.ecoop.org/home/panathon-2019) session 3, which focuses on demonstrating the integration of [CogniCrypt](https://github.com/CROSSINGTUD/CryptoAnalysis) and [OpenJ9](https://github.com/eclipse/openj9)
+  * This repo contains materials to setup an environment for a demonstration that is to take place in [Panathon](https://2019.ecoop.org/home/panathon-2019) session 3. This demo showcases an integration of [CogniCrypt](https://github.com/CROSSINGTUD/CryptoAnalysis) and [OpenJ9](https://github.com/eclipse/openj9) that delivers dynamicism to a popular static analysis tool, as well as Crypto-API security to a well known JVM environment.
   * This demo relies upon [docker](https://www.docker.com/resources/what-container) in order to provide a standard self contained demo environment
   * New to docker? Docker commands relevant to the demo can be found [here](https://github.com/knewbury01/PanathonExampleMaterials/blob/master/DockerTutorial.md)
   * The configuration of the DockerfileCogni file is (Architecture)x86_64, (OS) UBUNTU 18.04
-
+  
 ## Demo Instructions:
 
 ### Setup:
