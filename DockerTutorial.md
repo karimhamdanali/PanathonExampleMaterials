@@ -1,11 +1,11 @@
-## Quick Docker Tutorial:
+# Quick Docker Tutorial:
 
   * Terminology:
     * Image: a file that specifies instructions for creating a docker container
     * Container: an (running or not) instance of an image
   * A more detailed overview can be found in the [Docker docs](https://docs.docker.com/engine/docker-overview/)
 
-### Docker Commands:
+## Docker Commands:
   * The `docker run` command in the setup step will start the docker image in interactive mode. However one may wish to 1) exit, 2) restart, 3) deattach, 4) reattach to a container, and 5) print information about the docker images and containers once they are setup 
 
 1) when in an interactive docker session simply type `exit` to terminate the running process.
@@ -22,7 +22,7 @@
    * all of the above commands will also provide the container and image ids for the docker entities present.
 
 
-### Cleanup:
+## Cleanup:
   * After the session you may choose to remove the docker images and containers that were setup. This can be done with the following:
 
 To remove a container:
