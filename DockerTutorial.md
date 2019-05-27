@@ -3,7 +3,8 @@
   * Terminology:
     * Image: a file that specifies instructions for creating a docker container
     * Container: an (running or not) instance of an image
-  * A more detailed overview can be found in the [Docker docs](https://docs.docker.com/engine/docker-overview/)
+  * A more detailed overview Docker concepts can be found in the [Docker docs](https://docs.docker.com/engine/docker-overview/)
+  * This is just the tip of the iceberg! More Docker commands can be found [here](https://docs.docker.com/engine/reference/commandline/docker/)
 
 ## Docker Commands:
   * The `docker run` command in the setup step will start the docker image in interactive mode. However one may wish to 1) print information about the docker images and containers once they are setup 2) exit, 3) restart, 4) deattach, 5) reattach to a container
