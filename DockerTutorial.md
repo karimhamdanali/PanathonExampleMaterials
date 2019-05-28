@@ -1,13 +1,13 @@
 # Quick Docker Tutorial:
 
   ### Terminology:
-    * Image: a file that specifies instructions for creating a docker container
-    * Container: an (running or not) instance of an image
+  * Image: a file that specifies instructions for creating a docker container
+  * Container: an (running or not) instance of an image
   ### Other Resources:
   * A more detailed overview Docker concepts can be found in the [Docker docs](https://docs.docker.com/engine/docker-overview/)
   * This is just the tip of the iceberg! More Docker commands can be found [here](https://docs.docker.com/engine/reference/commandline/docker/)
   * Another docker tutorial can also be found [here](https://github.com/docker/labs/tree/master/beginner/)
-  ### Docker Mac Installation Resources:
+  ### Docker Mac/Windows Installation Resources:
   * For both of the following, read the "What to know before you install" section carefully for system requirements and **how this may interact with pre-existing VirtualBox installations**
   * Docker for Mac (aka Docker Desktop) can be installed from [here](https://hub.docker.com/editions/community/docker-ce-desktop-mac) or using steps listed [here](https://stackoverflow.com/questions/40523307/brew-install-docker-does-not-include-docker-engine/43365425#43365425)
   * Docker for Windows is also [available](https://docs.docker.com/docker-for-windows/install/)
