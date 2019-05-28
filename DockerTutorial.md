@@ -1,11 +1,14 @@
 # Quick Docker Tutorial:
 
-  * Terminology:
+  ### Terminology:
     * Image: a file that specifies instructions for creating a docker container
     * Container: an (running or not) instance of an image
+  ### Other Resources:
   * A more detailed overview Docker concepts can be found in the [Docker docs](https://docs.docker.com/engine/docker-overview/)
   * This is just the tip of the iceberg! More Docker commands can be found [here](https://docs.docker.com/engine/reference/commandline/docker/)
   * Another docker tutorial can also be found [here](https://github.com/docker/labs/tree/master/beginner/)
+  ### Docker Mac Installation Resources:
+  * Docker for Mac (aka Docker Desktop) can be installed from [here](https://hub.docker.com/editions/community/docker-ce-desktop-mac) or using steps listed [here](https://stackoverflow.com/questions/40523307/brew-install-docker-does-not-include-docker-engine/43365425#43365425)
 
 ## Docker Commands:
   * The `docker run` command in the setup step will start the docker image in interactive mode. However one may wish to 1) print information about the docker images and containers once they are setup 2) exit, 3) restart, 4) deattach, 5) reattach to a container
