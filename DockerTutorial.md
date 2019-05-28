@@ -15,33 +15,57 @@
 
 ### 1. Print Docker Info
   ```docker images```
-  will list all of the images available
-  ```docker ps -as```
-  will list all of the containers (both running and not, as we
+
+
+will list all of the images available
+
+
+```docker ps -as```
+
+
+will list all of the containers (both running and not, as we
 ll as their size)
-  ```docker ps```
-  will only list the running containers.
+
+
+```docker ps```
+
+
+will only list the running containers.
   all of the above commands will also provide the container and image ids fo
 r the docker entities present.
 
 ### 2. Exit Container:
   ```exit```
-  when in an interactive docker session this command will terminate the running process.
+
+
+when in an interactive docker session this command will terminate the running process.
   
 ### 3. Restart Container:
   ```docker start <Container-ID>```
-  will start a stopped container
-  ```docker start -ai <Container-ID>```
-  can be used to both start and attach at the same time.
+
+
+will start a stopped container
+
+
+```docker start -ai <Container-ID>```
+
+
+can be used to both start and attach at the same time.
 
 ### 4. Dettach from Container:
   The escape sequence:
-  ```Ctrl-p , Ctrl-q```
-  dettachs from a container (this will leave the container running)
+
+
+```Ctrl-p , Ctrl-q```
+
+
+dettachs from a container (this will leave the container running)
 
 ### 5. Reattach to Container:
-  ```docker attach <Container-ID>```
-  attachs to a running container
+```docker attach <Container-ID>```
+
+
+attachs to a running container
   
 ## Cleanup
   * After the session you may choose to remove the docker images and containers that were setup. This can be done with the following:
