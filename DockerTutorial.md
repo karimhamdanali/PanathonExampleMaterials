@@ -8,7 +8,9 @@
   * This is just the tip of the iceberg! More Docker commands can be found [here](https://docs.docker.com/engine/reference/commandline/docker/)
   * Another docker tutorial can also be found [here](https://github.com/docker/labs/tree/master/beginner/)
   ### Docker Mac Installation Resources:
+  * For both of the following, read the "What to know before you install" section carefully for system requirements and **how this may interact with pre-existing VirtualBox installations**
   * Docker for Mac (aka Docker Desktop) can be installed from [here](https://hub.docker.com/editions/community/docker-ce-desktop-mac) or using steps listed [here](https://stackoverflow.com/questions/40523307/brew-install-docker-does-not-include-docker-engine/43365425#43365425)
+  * Docker for Windows is also [available](https://docs.docker.com/docker-for-windows/install/)
 
 ## Docker Commands:
   * The `docker run` command in the setup step will start the docker image in interactive mode. However one may wish to 1) print information about the docker images and containers once they are setup 2) exit, 3) restart, 4) deattach, 5) reattach to a container
